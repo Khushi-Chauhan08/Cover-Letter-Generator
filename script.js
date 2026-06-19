@@ -13,27 +13,15 @@ form.addEventListener("submit", async function(e){
   output.value = "Generating...";
 
   try{
-    let resumeText ="";
-    if (file){
-     const formData = new FormData();
-     formData.append("resume", file);
-     const uploadRes = await fetch("http://localhost:5000/upload",{
-       method: "POST",
-       body : formData
-     });
-
-     if(uploadRes.ok){
-const uploadData = await uploadRes.json();
-resumeText = uploadData.text;
-} }
- 
-    const res = await fetch("http://localhost:5000/generate",{
-      method: "POST",
-      headers: {
-        "Content-Type" : "application/json"
-      },
-body: JSON.stringify({name, role, company, skills, resumeText})
+   let resumeText = "";
+   const res = await fetch("/api/generate",{
+  method: "POST",
+  headers: {
+    "Content-Type" : "application/json"
+  },
+  body: JSON.stringify({name, role, company, skills, resumeText})
 });
+ 
 
 if(!res.ok){
   throw new Error("Generate API failed");
